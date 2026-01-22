@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RYM BOXING GYM | Train Like a Pro</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- For Arabic support -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --black: #000000;
+            --red: #C8102E;
+            --dark-gray: #1A1A1A;
+            --light-gray: #F5F5F5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--black);
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        /* Arabic language styles */
+        body[dir="rtl"] {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body[dir="rtl"] h1, 
+        body[dir="rtl"] h2, 
+        body[dir="rtl"] h3, 
+        body[dir="rtl"] h4, 
+        body[dir="rtl"] h5, 
+        body[dir="rtl"] h6 {
+            font-family: 'Cairo', sans-serif;
+            letter-spacing: 0;
+        }
+        
+        body[dir="rtl"] .navbar-brand,
+        body[dir="rtl"] .main-logo,
+        body[dir="rtl"] .footer-logo {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 1.5px;
+        }
+        
+        /* Language Switcher */
+        .language-switcher {
+            position: relative;
+            margin-left: 15px;
+        }
+        
+        .language-btn {
+            background: none;
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .language-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .language-flag {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--dark-gray);
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            min-width: 150px;
+            display: none;
+            z-index: 1001;
+        }
+        
+        .language-dropdown.active {
+            display: block;
+        }
+        
+        .language-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .language-option:hover {
+            background-color: var(--red);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--black);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--red);
+            border-radius: 5px;
+        }
+        
+        /* Shopping Cart Styles */
+        .cart-icon-container {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-icon {
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+            color: var(--gold);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100vh;
+            background-color: var(--dark-gray);
+            z-index: 9999;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            overflow-y: auto;
+        }
+        
+        body[dir="rtl"] .cart-sidebar {
+            right: auto;
+            left: -400px;
+        }
+        
+        .cart-sidebar.open {
+            right: 0;
+        }
+        
+        body[dir="rtl"] .cart-sidebar.open {
+            right: auto;
+            left: 0;
+        }
+        
+        .cart-header {
+            background-color: var(--black);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--red);
+        }
+        
+        .cart-items {
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        body[dir="rtl"] .cart-item-img {
+            margin-right: 0;
+            margin-left: 15px;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--gold);
+            font-weight: bold;
+        }
+        
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .cart-item-remove:hover {
+            color: var(--red);
+        }
+        
+        .cart-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--black);
+            padding: 20px;
+            border-top: 2px solid #333;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .cart-total span:last-child {
+            color: var(--gold);
+            font-weight: bold;
+        }
+        
+        .checkout-btn {
+            background-color: var(--red);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            background-color: var(--gold);
+            color: var(--black);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #aaa;
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Overlay for cart */
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 9998;
+            display: none;
+        }
+        
+        .cart-overlay.active {
+            display: block;
+        }
+        
+        /* Header with Video */
+        #hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            margin-bottom: 30px;
+        }
+        
+        .main-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 0;
+        }
+        
+        .main-logo span {
+            color: var(--red);
+        }
+        
+        .logo-subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 10px;
+            color: var(--gold);
+            margin-top: -10px;
+        }
+        
+        .hero-title {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: white;
+        }
+        
+        .hero-title span {
+            color: var(--red);
+            display: block;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            background-color: var(--red);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--gold);
+            color: var(--black);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.5s ease;
+            background-color: transparent;
+        }
+        
+        .navbar.scrolled {
+            background-color: rgba(0, 0, 0, 0.95);
+            padding: 10px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .navbar-brand {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            color: white;
+            letter-spacing: 3px;
+        }
+        
+        .navbar-brand span {
+            color: var(--red);
+        }
+        
+        .nav-link {
+            color: white;
+            font-weight: 500;
+            margin: 0 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--gold);
+        }
+        
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 3.5rem;
+            color: white;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--red);
+        }
+        
+        /* About Section */
+        #about {
+            background-color: var(--dark-gray);
+        }
+        
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .about-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        body[dir="rtl"] .feature-item {
+            flex-direction: row-reverse;
+        }
+        
+        .feature-icon {
+            background-color: var(--red);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        body[dir="rtl"] .feature-icon {
+            margin-right: 0;
+            margin-left: 20px;
+        }
+        
+        .feature-icon i {
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        /* Coach Section */
+        #coach {
+            background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        
+        .coach-card {
+            background-color: rgba(26, 26, 26, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.5s ease;
+        }
+        
+        .coach-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .coach-img {
+            width: 100%;
+            height: 700px;
+            object-fit: cover;
+        }
+        
+        .coach-info {
+            padding: 30px;
+        }
+        
+        .coach-name {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+        
+        .coach-title {
+            color: var(--red);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .coach-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 700;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Products Section */
+        #products {
+            background-color: var(--dark-gray);
+        }
+        
+        .product-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 10px 30px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tab-btn.active {
+            color: var(--gold);
+            border-bottom: 3px solid var(--red);
+        }
+        
+        .tab-btn:hover:not(.active) {
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .product-card {
+            background-color: var(--black);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            height: 100%;
+            border: 1px solid #333;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--red);
+            box-shadow: 0 15px 30px rgba(200, 16, 46, 0.2);
+        }
+        
+        .product-img {
+            height: 220px;
+            overflow: hidden;
+        }
+        
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+        
+        .product-info {
+            padding: 25px;
+        }
+        
+        .product-category {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .product-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .product-description {
+            color: #aaa;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .product-price {
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .product-features {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+        
+        .product-features li {
+            color: #ccc;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .product-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--red);
+            font-weight: bold;
+        }
+        
+        .product-btn {
+            background-color: var(--red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .product-btn:hover {
+            background-color: var(--gold);
+            color: var(--black);
+        }
+        
+        /* Contact Section */
+        #contact {
+            background-color: var(--black);
+        }
+        
+        .contact-container {
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .contact-info {
+            padding: 50px;
+            background: linear-gradient(rgba(200, 16, 46, 0.9), rgba(200, 16, 46, 0.8)), url('https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+        }
+        
+        .contact-form {
+            padding: 50px;
+        }
+        
+        .contact-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .contact-info p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .contact-details {
+            margin-top: 40px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        body[dir="rtl"] .contact-item {
+            flex-direction: row-reverse;
+        }
+        
+        .contact-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        body[dir="rtl"] .contact-icon {
+            margin-right: 0;
+            margin-left: 15px;
+        }
+        
+        .contact-icon i {
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .form-control {
+            background-color: #333;
+            border: 1px solid #444;
+            color: white;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .form-control:focus {
+            background-color: #333;
+            border-color: var(--red);
+            color: white;
+            box-shadow: 0 0 0 0.25rem rgba(200, 16, 46, 0.25);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #111;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo span {
+            color: var(--red);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--red);
+            transform: translateY(-5px);
+        }
+        
+        .footer-links h5 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links ul li a:hover {
+            color: var(--gold);
+            padding-left: 5px;
+        }
+        
+        body[dir="rtl"] .footer-links ul li a:hover {
+            padding-left: 0;
+            padding-right: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #777;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-logo {
+                font-size: 3.5rem;
+                letter-spacing: 5px;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .coach-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .contact-info, .contact-form {
+                padding: 30px;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+            
+            body[dir="rtl"] .cart-sidebar {
+                left: -100%;
+            }
+            
+            .language-switcher {
+                margin-left: 10px;
+            }
+            
+            .language-btn span {
+                display: none;
+            }
+        }
+        
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            z-index: 9999;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-left: 4px solid var(--red);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        body[dir="rtl"] .toast-notification {
+            right: auto;
+            left: 20px;
+            transform: translateX(-150%);
+        }
+        
+        .toast-notification.show {
+            transform: translateX(0);
+        }
+        
+        body[dir="rtl"] .toast-notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    
+    <!-- Toast Notification -->
+    <div class="toast-notification" id="toastNotification">
+        <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+        <span id="toastMessage"></span>
+    </div>
+    
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 class="mb-0" data-i18n="cart_title">YOUR CART</h3>
+            <button class="btn btn-close btn-close-white" id="closeCart"></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span data-i18n="cart_total">Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">
+                <i class="fab fa-whatsapp"></i> <span data-i18n="checkout_whatsapp">CHECKOUT ON WHATSAPP</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">RYM<span>BOXING</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#hero" data-i18n="nav_home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about" data-i18n="nav_about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#coach" data-i18n="nav_coach">Coach</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products" data-i18n="nav_shop">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact" data-i18n="nav_contact">Contact</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <div class="cart-icon-container" id="openCart">
+                            <i class="fas fa-shopping-cart cart-icon"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="language-switcher">
+                            <button class="language-btn" id="languageBtn">
+                                <div class="language-flag" id="currentFlag"></div>
+                                <span id="currentLanguage">EN</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="language-dropdown" id="languageDropdown">
+                                <div class="language-option" data-lang="en">
+                                    <div class="language-flag" style="background: url('https://flagcdn.com/w20/gb.png') center/cover;"></div>
+                                    <span>English</span>
+                                </div>
+                                <div class="language-option" data-lang="ar">
+                                    <div class="language-flag" style="background: url('https://flagcdn.com/w20/sa.png') center/cover;"></div>
+                                    <span>العربية</span>
+                                </div>
+                                <div class="language-option" data-lang="fr">
+                                    <div class="language-flag" style="background: url('https://flagcdn.com/w20/fr.png') center/cover;"></div>
+                                    <span>Français</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Video -->
+    <section id="hero">
+        <video autoplay muted loop id="hero-video">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-man-training-boxing-in-a-gym-34527-large.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+        <div class="hero-content">
+            <div class="logo-container" data-aos="fade-down" data-aos-duration="1000">
+                <h1 class="main-logo">RYM<span>BOXING</span></h1>
+                <p class="logo-subtitle" data-i18n="hero_subtitle">CHAMPION'S DEN</p>
+            </div>
+            <h1 class="hero-title" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                <span data-i18n="hero_title_1">FORGE</span> <span data-i18n="hero_title_2">CHAMPIONS</span>
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400" data-i18n="hero_description">
+                The most advanced boxing facility with professional coaching, championship-grade equipment, and nutrition programs designed for fighters. Train where champions are made.
+            </p>
+            <a href="#contact" class="cta-button" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600" data-i18n="hero_button">JOIN THE FIGHT</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2 data-i18n="about_title">WHY ELITE BOXING</h2>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="about-image">
+                        <img src="unnamed.jpg" alt="Elite Boxing Gym">
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="about-text">
+                        <h3 data-i18n="about_subtitle">WORLD-CLASS TRAINING FACILITY</h3>
+                        <p data-i18n="about_description">
+                            RYM Boxing Gym is not just a training center - it's a champion factory. We've produced professional fighters and countless amateur champions.
+                        </p>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <div>
+                                <h5 data-i18n="feature1_title">Professional Equipment</h5>
+                                <p data-i18n="feature1_description">Everlast, Ringside, and Cleto Reyes equipment - the same gear used in world title fights.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div>
+                                <h5 data-i18n="feature2_title">Champion Coaches</h5>
+                                <p data-i18n="feature2_description">Our coaching staff includes former world champions and professional fighters.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div>
+                                <h5 data-i18n="feature3_title">Fighter Nutrition</h5>
+                                <p data-i18n="feature3_description">Custom meal plans and supplements specifically designed for boxers' needs.</p>
+                            </div>
+                        </div>
+                        
+                        <a href="#contact" class="cta-button mt-3" data-i18n="about_button">BOOK A TRIAL SESSION</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coach Section -->
+    <section id="coach">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2 data-i18n="coach_title">MEET YOUR COACH</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10" data-aos="zoom-in">
+                    <div class="coach-card">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="Screenshot 2026-01-10 152859.png" class="coach-img" alt="Coach Rodriguez">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="coach-info">
+                                    <h3 class="coach-name" data-i18n="coach_name">BENTHAMI SAID</h3>
+                                    <p class="coach-title" data-i18n="coach_title_text">HEAD COACH</p>
+                                    
+                                    <div class="coach-stats">
+                                        <div class="stat">
+                                            <div class="stat-value"></div>
+                                            <div class="stat-label" data-i18n="coach_record"></div>
+                                        </div>
+                                        <div class="stat">
+                                            <div class="stat-value"></div>
+                                            <div class="stat-label" data-i18n="coach_trained"></div>
+                                        </div>
+                                        <div class="stat">
+                                            <div class="stat-value"></div>
+                                            <div class="stat-label" data-i18n="coach_experience"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <p data-i18n="coach_description1">
+                                        Coach Rodriguez is a former WBC Lightweight Champion with 12 successful title defenses. After retiring from professional boxing with a record, he has dedicated his life to training the next generation of champions.
+                                    </p>
+                                    <p data-i18n="coach_description2">
+                                        Specializing in technical boxing, defensive mastery, and fight strategy, Coach Rodriguez has trained 15 professional fighters, including 3 current regional champions.
+                                    </p>
+                                    <p><strong data-i18n="coach_philosophy_title">Training Philosophy:</strong> <span data-i18n="coach_philosophy">"Boxing is 80% mental. I don't just train fighters - I build warriors who can think three moves ahead."</span></p>
+                                    
+                                    <a href="#contact" class="cta-button mt-4" data-i18n="coach_button">TRAIN WITH CHAMPION</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2 data-i18n="products_title">FIGHTER'S SHOP</h2>
+            </div>
+            
+            <div class="product-tabs" data-aos="fade-up">
+                <button class="tab-btn active" data-tab="protein" data-i18n="tab_protein">PROTEIN & NUTRITION</button>
+                <button class="tab-btn" data-tab="equipment" data-i18n="tab_equipment">BOXING EQUIPMENT</button>
+            </div>
+            
+            <!-- Protein & Nutrition Tab -->
+            <div class="tab-content active" id="protein-tab">
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="product-card">
+                            <div class="product-img">
+                                <img src="Screenshot 2026-01-10 160805.png" alt="Fighter Protein">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category" data-i18n="category_protein">Protein</div>
+                                <h3 class="product-name" data-i18n="product1_name">CHAMPION WHEY ISOLATE</h3>
+                                <p class="product-description" data-i18n="product1_description">
+                                    Ultra-pure whey protein isolate specifically formulated for boxers. 30g protein per serving with added BCAAs for muscle recovery.
+                                </p>
+                                <ul class="product-features">
+                                    <li data-i18n="product1_feature1">27g Protein Per Scoop</li>
+                                    <li data-i18n="product1_feature2">Added Glutamine & BCAAs</li>
+                                    <li data-i18n="product1_feature3">Low Lactose, Easy Digestion</li>
+                                    <li data-i18n="product1_feature4">Chocolate & Vanilla Options</li>
+                                </ul>
+                                <div class="product-price">$89.99</div>
+                                <button class="product-btn add-to-cart" data-product='{"id": 1, "name": "CHAMPION WHEY ISOLATE", "price": 89.99, "category": "Protein", "image": "Screenshot 2026-01-10 160805.png"}' data-i18n="add_to_cart">ADD TO CART</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="product-card">
+                            <div class="product-img">
+                                <img src="Screenshot 2026-01-10 161623.png" alt="Pre-Workout">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category" data-i18n="category_preworkout">Pre-Workout</div>
+                                <h3 class="product-name" data-i18n="product2_name">RING READY PRE-WORKOUT</h3>
+                                <p class="product-description" data-i18n="product2_description">
+                                    Maximize your training with our fighter-formulated pre-workout. Provides sustained energy without crashes.
+                                </p>
+                                <ul class="product-features">
+                                    <li data-i18n="product2_feature1">Increased Energy & Focus</li>
+                                    <li data-i18n="product2_feature2">Enhanced Muscle Pumps</li>
+                                    <li data-i18n="product2_feature3">No Jitters or Crash</li>
+                                    <li data-i18n="product2_feature4">Strawberry & Blue Raspberry</li>
+                                </ul>
+                                <div class="product-price">$59.99</div>
+                                <button class="product-btn add-to-cart" data-product='{"id": 2, "name": "RING READY PRE-WORKOUT", "price": 59.99, "category": "Pre-Workout", "image": "Screenshot 2026-01-10 161623.png"}' data-i18n="add_to_cart">ADD TO CART</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="product-card">
+                            <div class="product-img">
+                                <img src="Screenshot 2026-01-10 161800.png" alt="Recovery">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category" data-i18n="category_recovery">Recovery</div>
+                                <h3 class="product-name" data-i18n="product3_name">FIGHTER'S RECOVERY BLEND</h3>
+                                <p class="product-description" data-i18n="product3_description">
+                                    Post-training recovery formula with protein, carbs, and electrolytes to replenish and rebuild after intense sessions.
+                                </p>
+                                <ul class="product-features">
+                                    <li data-i18n="product3_feature1">Fast-Absorbing Protein</li>
+                                    <li data-i18n="product3_feature2">Electrolyte Replenishment</li>
+                                    <li data-i18n="product3_feature3">Reduces Muscle Soreness</li>
+                                    <li data-i18n="product3_feature4">Chocolate & Banana Flavors</li>
+                                </ul>
+                                <div class="product-price">$74.99</div>
+                                <button class="product-btn add-to-cart" data-product='{"id": 3, "name": "FIGHTER'S RECOVERY BLEND", "price": 74.99, "category": "Recovery", "image": "Screenshot 2026-01-10 161800.png"}' data-i18n="add_to_cart">ADD TO CART</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Boxing Equipment Tab -->
+            <div class="tab-content" id="equipment-tab">
+                <div class="row g-4">
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="product-card">
+                            <div class="product-img">
+                                <img src="https://cdn.shopify.com/s/files/1/0567/1747/6027/files/f5a9fef80e8e9e18c7f7790bacd5f19148ec43b4_VNM_VENUM_04483_001_1_474x.jpg?v=1751463803" alt="Boxing Gloves">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category" data-i18n="category_gloves">Gloves</div>
+                                <h3 class="product-name" data-i18n="product4_name">PROFIGHT COMPETITION GLOVES</h3>
+                                <p class="product-description" data-i18n="product4_description">
+                                    Professional-grade leather boxing gloves used by champions. Perfect for sparring and competition.
+                                </p>
+                                <ul class="product-features">
+                                    <li data-i18n="product4_feature1">Premium Leather Construction</li>
+                                    <li data-i18n="product4_feature2">Multi-Layer Foam Padding</li>
+                                    <li data-i18n="product4_feature3">Mesh Palm for Ventilation</li>
+                                    <li data-i18n="product4_feature4">Sizes: 10oz, 12oz, 14oz, 16oz</li>
+                                </ul>
+                                <div class="product-price">200 <span>DH</span></div>
+                                <button class="product-btn add-to-cart" data-product='{"id": 4, "name": "PROFIGHT COMPETITION GLOVES", "price": 189.99, "category": "Gloves", "image": "https://images.unsplash.com/photo-1587628604436-8a6c6b7b5c5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"}' data-i18n="add_to_cart">ADD TO CART</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="product-card">
+                            <div class="product-img">
+                                <img src="https://fr.venum.com/cdn/shop/files/ee7d3ee1be975e4e7eb5c8f36ce90eb7ea3255af_EU_VENUM_0430_Black__2_G.jpg?v=1756723637" alt="Hand Wraps">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category" data-i18n="category_handprotection">Hand Protection</div>
+                                <h3 class="product-name" data-i18n="product5_name">ELITE HAND WRAPS</h3>
+                                <p class="product-description" data-i18n="product5_description">
+                                    180-inch professional hand wraps with thumb loop and velcro closure for maximum wrist support.
+                                </p>
+                                <ul class="product-features">
+                                    <li data-i18n="product5_feature1">180" Length for Full Coverage</li>
+                                    <li data-i18n="product5_feature2">Breathable Cotton Material</li>
+                                    <li data-i18n="product5_feature3">Secure Velcro Closure</li>
+                                    <li data-i18n="product5_feature4">Multiple Color Options</li>
+                                </ul>
+                                <div class="product-price">49.99 <span>DH</span></div>
+                                <button class="product-btn add-to-cart" data-product='{"id": 5, "name": "ELITE HAND WRAPS", "price": 24.99, "category": "Hand Protection", "image": "https://images.unsplash.com/photo-1599058917765-a780eda07a3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"}' data-i18n="add_to_cart">ADD TO CART</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="product-card">
+                            <div class="product-img">
+                                <img src="https://www.budo-fight.com/images/products_images/2889/82Xfa-PR0pB.jpeg/fm-pjpg/w-2000/h-2000/fit-max" alt="Punching Bag">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-category" data-i18n="category_training">Training Equipment</div>
+                                <h3 class="product-name" data-i18n="product6_name">HEAVY DUTY PUNCHING BAG</h3>
+                                <p class="product-description" data-i18n="product6_description">
+                                    Professional 6ft heavy bag filled with shredded fabric for perfect resistance and feel.
+                                </p>
+                                <ul class="product-features">
+                                    <li data-i18n="product6_feature1">100lbs Heavy Bag</li>
+                                    <li data-i18n="product6_feature2">Reinforced Stitching</li>
+                                    <li data-i18n="product6_feature3">Water-Resistant Leather</li>
+                                    <li data-i18n="product6_feature4">Includes Chains & Swivel</li>
+                                </ul>
+                                <div class="product-price">1500 <SPAN>DH</SPAN></div>
+                                <button class="product-btn add-to-cart" data-product='{"id": 6, "name": "HEAVY DUTY PUNCHING BAG", "price": 299.99, "category": "Training Equipment", "image": "https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"}' data-i18n="add_to_cart">ADD TO CART</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2 data-i18n="contact_title">TRAIN WITH A CHAMPION</h2>
+            </div>
+            <div class="contact-container" data-aos="zoom-in">
+                <div class="row g-0">
+                    <div class="col-lg-6">
+                        <div class="contact-info">
+                            <h3 data-i18n="contact_ready">READY TO FIGHT?</h3>
+                            <p data-i18n="contact_description">
+                                Book your first session with Coach Rodriguez today. Whether you're a beginner or an experienced fighter, we have a program for you.
+                            </p>
+                            
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h5 data-i18n="contact_location">LOCATION</h5>
+                                        <p>123 Champion Street, Boxing City</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <h5 data-i18n="contact_phone">PHONE</h5>
+                                        <p>(555) 123-4567</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h5 data-i18n="contact_email">EMAIL</h5>
+                                        <p>train@eliteboxing.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h5 data-i18n="contact_hours">HOURS</h5>
+                                        <p data-i18n="contact_hours_detail">Mon-Fri: 5AM-10PM | Sat-Sun: 7AM-8PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="contact-form">
+                            <form id="contactForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="firstName" placeholder="First Name" data-i18n-ph="first_name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" data-i18n-ph="last_name" required>
+                                    </div>
+                                </div>
+                                <input type="email" class="form-control" id="email" placeholder="Email Address" data-i18n-ph="email" required>
+                                <input type="tel" class="form-control" id="phone" placeholder="Phone Number" data-i18n-ph="phone" required>
+                                <select class="form-control" id="trainingGoal" required>
+                                    <option value="" disabled selected data-i18n="select_goal">Select Training Goal</option>
+                                    <option data-i18n="goal_beginner">Beginner Boxing</option>
+                                    <option data-i18n="goal_advanced">Advanced Technique</option>
+                                    <option data-i18n="goal_competition">Competition Training</option>
+                                    <option data-i18n="goal_fitness">Fitness & Conditioning</option>
+                                    <option data-i18n="goal_private">Private Coaching</option>
+                                </select>
+                                <textarea class="form-control" id="message" rows="4" placeholder="Tell us about your boxing experience and goals..." data-i18n-ph="message" required></textarea>
+                                <button type="submit" class="cta-button w-100 mt-3">
+                                    <i class="fab fa-whatsapp"></i> <span data-i18n="send_whatsapp">SEND VIA WHATSAPP</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h3 class="footer-logo">ELITE<span>BOXING</span></h3>
+                    <p data-i18n="footer_description">
+                        The premier boxing gym for fighters of all levels. Train with champions, fight like a champion.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-links">
+                        <h5 data-i18n="footer_quicklinks">QUICK LINKS</h5>
+                        <ul>
+                            <li><a href="#hero" data-i18n="nav_home">Home</a></li>
+                            <li><a href="#about" data-i18n="nav_about">About Us</a></li>
+                            <li><a href="#coach" data-i18n="nav_coach">Coach</a></li>
+                            <li><a href="#products" data-i18n="nav_shop">Shop</a></li>
+                            <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="footer-links">
+                        <h5 data-i18n="footer_programs">PROGRAMS</h5>
+                        <ul>
+                            <li><a href="#" data-i18n="program_beginner">Beginner Boxing</a></li>
+                            <li><a href="#" data-i18n="program_advanced">Advanced Training</a></li>
+                            <li><a href="#" data-i18n="program_competition">Competition Prep</a></li>
+                            <li><a href="#" data-i18n="program_youth">Youth Boxing</a></li>
+                            <li><a href="#" data-i18n="program_women">Women's Boxing</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 RYM BOXING GYM. <span data-i18n="footer_rights">All Rights Reserved.</span> | <span data-i18n="footer_made">Made with</span> <i class="fas fa-fist-raised text-danger"></i> <span data-i18n="footer_for">for Fighters</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+        
+        // WhatsApp phone number (replace with your actual number)
+        const WHATSAPP_NUMBER = "0691903101"; // Format: country code + number without +
+        
+        // Language Data
+        const translations = {
+            en: {
+                // Navigation
+                "nav_home": "Home",
+                "nav_about": "About",
+                "nav_coach": "Coach",
+                "nav_shop": "Shop",
+                "nav_contact": "Contact",
+                
+                // Hero Section
+                "hero_subtitle": "CHAMPION'S DEN",
+                "hero_title_1": "FORGE",
+                "hero_title_2": "CHAMPIONS",
+                "hero_description": "The most advanced boxing facility with professional coaching, championship-grade equipment, and nutrition programs designed for fighters. Train where champions are made.",
+                "hero_button": "JOIN THE FIGHT",
+                
+                // About Section
+                "about_title": "WHY RYM BOXING",
+                "about_subtitle": "WORLD-CLASS TRAINING FACILITY",
+                "about_description": "RYM Boxing Gym is not just a training center - it's a champion factory. We've produced  professional fighters and countless amateur champions.",
+                "feature1_title": "Professional Equipment",
+                "feature1_description": "Everlast, Ringside, and Cleto Reyes equipment - the same gear used in world title fights.",
+                "feature2_title": "Champion Coaches",
+                "feature2_description": "Our coaching staff includes former world champions and professional fighters.",
+                "feature3_title": "Fighter Nutrition",
+                "feature3_description": "Custom meal plans and supplements specifically designed for boxers' needs.",
+                "about_button": "BOOK A TRIAL SESSION",
+                
+                // Coach Section
+                "coach_title": "MEET YOUR COACH",
+                "coach_name": "BENTHAMI SAID",
+                "coach_title_text": "HEAD COACH ",
+                "coach_record": "",
+                "coach_trained": "",
+                "coach_experience": "",
+                "coach_description1": "Coach Said is a former WBC Lightweight Champion with 12 successful title defenses. After retiring from professional boxing with a  record, he has dedicated his life to training the next generation of champions.",
+                "coach_description2": "Specializing in technical boxing, defensive mastery, and fight strategy, Coach Rodriguez has trained  professional fighters, including 3 current regional champions.",
+                "coach_philosophy_title": "Training Philosophy:",
+                "coach_philosophy": "\"Boxing is 80% mental. I don't just train fighters - I build warriors who can think three moves ahead.\"",
+                "coach_button": "TRAIN WITH CHAMPION",
+                
+                // Products Section
+                "products_title": "FIGHTER'S SHOP",
+                "tab_protein": "PROTEIN & NUTRITION",
+                "tab_equipment": "BOXING EQUIPMENT",
+                "category_protein": "Protein",
+                "category_preworkout": "Pre-Workout",
+                "category_recovery": "Recovery",
+                "category_gloves": "Gloves",
+                "category_handprotection": "Hand Protection",
+                "category_training": "Training Equipment",
+                "product1_name": "CHAMPION WHEY ISOLATE",
+                "product1_description": "Ultra-pure whey protein isolate specifically formulated for boxers. 30g protein per serving with added BCAAs for muscle recovery.",
+                "product1_feature1": "27g Protein Per Scoop",
+                "product1_feature2": "Added Glutamine & BCAAs",
+                "product1_feature3": "Low Lactose, Easy Digestion",
+                "product1_feature4": "Chocolate & Vanilla Options",
+                "product2_name": "RING READY PRE-WORKOUT",
+                "product2_description": "Maximize your training with our fighter-formulated pre-workout. Provides sustained energy without crashes.",
+                "product2_feature1": "Increased Energy & Focus",
+                "product2_feature2": "Enhanced Muscle Pumps",
+                "product2_feature3": "No Jitters or Crash",
+                "product2_feature4": "Strawberry & Blue Raspberry",
+                "product3_name": "FIGHTER'S RECOVERY BLEND",
+                "product3_description": "Post-training recovery formula with protein, carbs, and electrolytes to replenish and rebuild after intense sessions.",
+                "product3_feature1": "Fast-Absorbing Protein",
+                "product3_feature2": "Electrolyte Replenishment",
+                "product3_feature3": "Reduces Muscle Soreness",
+                "product3_feature4": "Chocolate & Banana Flavors",
+                "product4_name": "PROFIGHT COMPETITION GLOVES",
+                "product4_description": "Professional-grade leather boxing gloves used by champions. Perfect for sparring and competition.",
+                "product4_feature1": "Premium Leather Construction",
+                "product4_feature2": "Multi-Layer Foam Padding",
+                "product4_feature3": "Mesh Palm for Ventilation",
+                "product4_feature4": "Sizes: 10oz, 12oz, 14oz, 16oz",
+                "product5_name": "ELITE HAND WRAPS",
+                "product5_description": "180-inch professional hand wraps with thumb loop and velcro closure for maximum wrist support.",
+                "product5_feature1": "180\" Length for Full Coverage",
+                "product5_feature2": "Breathable Cotton Material",
+                "product5_feature3": "Secure Velcro Closure",
+                "product5_feature4": "Multiple Color Options",
+                "product6_name": "HEAVY DUTY PUNCHING BAG",
+                "product6_description": "Professional 6ft heavy bag filled with shredded fabric for perfect resistance and feel.",
+                "product6_feature1": "100lbs Heavy Bag",
+                "product6_feature2": "Reinforced Stitching",
+                "product6_feature3": "Water-Resistant Leather",
+                "product6_feature4": "Includes Chains & Swivel",
+                "add_to_cart": "ADD TO CART",
+                
+                // Cart
+                "cart_title": "YOUR CART",
+                "cart_total": "Total:",
+                "checkout_whatsapp": "CHECKOUT ON WHATSAPP",
+                
+                // Contact Section
+                "contact_title": "TRAIN WITH A CHAMPION",
+                "contact_ready": "READY TO FIGHT?",
+                "contact_description": "Book your first session with Coach Rodriguez today. Whether you're a beginner or an experienced fighter, we have a program for you.",
+                "contact_location": "LOCATION",
+                "contact_phone": "PHONE",
+                "contact_email": "EMAIL",
+                "contact_hours": "HOURS",
+                "contact_hours_detail": "Mon-Fri: 5AM-10PM | Sat-Sun: 7AM-8PM",
+                "first_name": "First Name",
+                "last_name": "Last Name",
+                "email": "Email Address",
+                "phone": "Phone Number",
+                "select_goal": "Select Training Goal",
+                "goal_beginner": "Beginner Boxing",
+                "goal_advanced": "Advanced Technique",
+                "goal_competition": "Competition Training",
+                "goal_fitness": "Fitness & Conditioning",
+                "goal_private": "Private Coaching",
+                "message": "Tell us about your boxing experience and goals...",
+                "send_whatsapp": "SEND VIA WHATSAPP",
+                
+                // Footer
+                "footer_description": "The premier boxing gym for fighters of all levels. Train with champions, fight like a champion.",
+                "footer_quicklinks": "QUICK LINKS",
+                "footer_programs": "PROGRAMS",
+                "program_beginner": "Beginner Boxing",
+                "program_advanced": "Advanced Training",
+                "program_competition": "Competition Prep",
+                "program_youth": "Youth Boxing",
+                "program_women": "Women's Boxing",
+                "footer_rights": "All Rights Reserved.",
+                "footer_made": "Made with",
+                "footer_for": "for Fighters",
+                
+                // Toast messages
+                "added_to_cart": "added to cart!",
+                "order_sent": "Order sent to WhatsApp!",
+                "form_sent": "Contact form sent to WhatsApp!",
+                "empty_cart": "Your cart is empty!"
+            },
+            
+            ar: {
+                // Navigation
+                "nav_home": "الرئيسية",
+                "nav_about": "من نحن",
+                "nav_coach": "المدرب",
+                "nav_shop": "المتجر",
+                "nav_contact": "اتصل بنا",
+                
+                // Hero Section
+                "hero_subtitle": "عرش الأبطال",
+                "hero_title_1": "اصنع",
+                "hero_title_2": "الأبطال",
+                "hero_description": "منشأة الملاكمة الأكثر تطوراً مع تدريب احترافي ومعدات بدرجة البطولة وبرامج تغذية مصممة للملاكمين. تدرب حيث يصنع الأبطال.",
+                "hero_button": "انضم إلى القتال",
+                
+                // About Section
+                "about_title": "لماذا النخبة للملاكمة",
+                "about_subtitle": "منشأة تدريب عالمية المستوى",
+                "about_description": "نادي النخبة للملاكمة ليس مجرد مركز تدريب - إنه مصنع للأبطال. لقد أنتجنا ملاكمًا محترفًا وعددًا لا يحصى من الأبطال الهواة.",
+                "feature1_title": "معدات احترافية",
+                "feature1_description": "معدات إيفرلاست ورينجسايد وكليتو رييس - نفس المعدات المستخدمة في بطولات العالم.",
+                "feature2_title": "مدربون أبطال",
+                "feature2_description": "يضم فريقنا التدريبي أبطالًا سابقين في العالم وملاكمين محترفين.",
+                "feature3_title": "تغذية المقاتلين",
+                "feature3_description": "خطط وجبات ومكملات غذائية مصممة خصيصًا لاحتياجات الملاكمين.",
+                "about_button": "احجز جلسة تجريبية",
+                
+                // Coach Section
+                "coach_title": "تعرف على مدربك",
+                "coach_name": "ميغيل \"الثور\" رودريجيز",
+                "coach_title_text": "المدرب الرئيسي وبطل WBC السابق",
+                "coach_record": "",
+                "coach_trained": "الأبطال المدربي",
+                "coach_experience": "سنوات الخبرة",
+                "coach_description1": "المدرب رودريجيز هو بطل WBC السابق في الوزن الخفيف مع 12 دفاعًا ناجحًا عن اللقب. بعد اعتزاله الملاكمة الاحترافية بسجل، كرس حياته لتدريب الجيل القادم من الأبطال.",
+                "coach_description2": "متخصص في الملاكمة التقنية وإتقان الدفاع واستراتيجية القتال، درب المدرب رودريجيز  ملاكمًا محترفًا، بما في ذلك 3 أبطال إقليميين حاليين.",
+                "coach_philosophy_title": "فلسفة التدريب:",
+                "coach_philosophy": "\"الملاكمة 80% عقلية. أنا لا أدرب المقاتلين فقط - أنا أبني محاربين يمكنهم التفكير ثلاث خطوات للأمام.\"",
+                "coach_button": "تدرب مع البطل",
+                
+                // Products Section
+                "products_title": "متجر المقاتل",
+                "tab_protein": "البروتين والتغذية",
+                "tab_equipment": "معدات الملاكمة",
+                "category_protein": "بروتين",
+                "category_preworkout": "ما قبل التمرين",
+                "category_recovery": "الاستشفاء",
+                "category_gloves": "قفازات",
+                "category_handprotection": "حماية اليد",
+                "category_training": "معدات التدريب",
+                "product1_name": "بروتين مصل اللبن البطولي",
+                "product1_description": "بروتين مصل اللبن النقي المصمم خصيصًا للملاكمين. 30 غرام بروتين لكل وجبة مع أحماض أمينية مضافة لاستعادة العضلات.",
+                "product1_feature1": "27 غرام بروتين لكل مغرفة",
+                "product1_feature2": "مضاف جلوتامين وأحماض أمينية",
+                "product1_feature3": "قليل اللاكتوز، سهل الهضم",
+                "product1_feature4": "نكهتي الشوكولاتة والفانيليا",
+                "product2_name": "مكمل ما قبل التمرين",
+                "product2_description": "قم بتحقيق أقصى استفادة من تدريبك بمكمل ما قبل التمرين المصمم للمقاتلين. يوفر طاقة مستدامة بدون انهيار.",
+                "product2_feature1": "زيادة الطاقة والتركيز",
+                "product2_feature2": "تعزيز ضخ العضلات",
+                "product2_feature3": "بدون توتر أو انهيار",
+                "product2_feature4": "نكهتي الفراولة والتوت الأزرق",
+                "product3_name": "مزيج الاستشفاء للمقاتلين",
+                "product3_description": "تركيبة الاستشفاء بعد التدريب بالبروتين والكربوهيدرات والإلكتروليتات للتجديد وإعادة البناء بعد الجلسات المكثفة.",
+                "product3_feature1": "بروتين سريع الامتصاص",
+                "product3_feature2": "تجديد الإلكتروليتات",
+                "product3_feature3": "يقلل من ألم العضلات",
+                "product3_feature4": "نكهتي الشوكولاتة والموز",
+                "product4_name": "قفازات المنافسة الاحترافية",
+                "product4_description": "قفازات ملاكمة جلدية احترافية المستوى يستخدمها الأبطال. مثالية للتدريب والمنافسة.",
+                "product4_feature1": "تصميم جلد عالي الجودة",
+                "product4_feature2": "حشوة رغوية متعددة الطبقات",
+                "product4_feature3": "راحة يد شبكية للتهوية",
+                "product4_feature4": "مقاسات: 10 أوقية، 12 أوقية، 14 أوقية، 16 أوقية",
+                "product5_name": "لفات يد النخبة",
+                "product5_description": "لفات يد احترافية بطول 180 بوصة بحلقة إبهام وإغلاق فيلكرو لدعم الرسغ الأقصى.",
+                "product5_feature1": "طول 180 بوصة لتغطية كاملة",
+                "product5_feature2": "مادة قطنية قابلة للتنفس",
+                "product5_feature3": "إغلاق فيلكرو آمن",
+                "product5_feature4": "خيارات متعددة للألوان",
+                "product6_name": "كيس ملاكمة ثقيل متين",
+                "product6_description": "كيس ملاكمة ثقيل احترافي بطول 6 أقدام مملوء بنسيج ممزق لمقاومة وإحساس مثاليين.",
+                "product6_feature1": "كيس ثقيل 100 رطل",
+                "product6_feature2": "خياطة معززة",
+                "product6_feature3": "جلد مقاوم للماء",
+                "product6_feature4": "يشمل السلاسل والمفصل",
+                "add_to_cart": "أضف إلى السلة",
+                
+                // Cart
+                "cart_title": "سلتك",
+                "cart_total": "الإجمالي:",
+                "checkout_whatsapp": "الدفع عبر واتساب",
+                
+                // Contact Section
+                "contact_title": "تدرب مع بطل",
+                "contact_ready": "مستعد للقتال؟",
+                "contact_description": "احجز جلستك الأولى مع المدرب رودريجيز اليوم. سواء كنت مبتدئًا أو مقاتلاً محترفًا، لدينا برنامج يناسبك.",
+                "contact_location": "الموقع",
+                "contact_phone": "الهاتف",
+                "contact_email": "البريد الإلكتروني",
+                "contact_hours": "ساعات العمل",
+                "contact_hours_detail": "الإثنين-الجمعة: 5 صباحًا-10 مساءً | السبت-الأحد: 7 صباحًا-8 مساءً",
+                "first_name": "الاسم الأول",
+                "last_name": "اسم العائلة",
+                "email": "البريد الإلكتروني",
+                "phone": "رقم الهاتف",
+                "select_goal": "اختر هدف التدريب",
+                "goal_beginner": "ملاكمة للمبتدئين",
+                "goal_advanced": "تقنيات متقدمة",
+                "goal_competition": "تدريب المنافسة",
+                "goal_fitness": "اللياقة والتكييف",
+                "goal_private": "تدريب خاص",
+                "message": "أخبرنا عن خبرتك في الملاكمة وأهدافك...",
+                "send_whatsapp": "إرسال عبر واتساب",
+                
+                // Footer
+                "footer_description": "نادي الملاكمة الرائد للمقاتلين من جميع المستويات. تدرب مع الأبطال، قاتل مثل البطل.",
+                "footer_quicklinks": "روابط سريعة",
+                "footer_programs": "البرامج",
+                "program_beginner": "ملاكمة للمبتدئين",
+                "program_advanced": "تدريب متقدم",
+                "program_competition": "تحضير للمنافسة",
+                "program_youth": "ملاكمة الشباب",
+                "program_women": "ملاكمة النساء",
+                "footer_rights": "جميع الحقوق محفوظة.",
+                "footer_made": "صنع بـ",
+                "footer_for": "للمقاتلين",
+                
+                // Toast messages
+                "added_to_cart": "تمت الإضافة إلى السلة!",
+                "order_sent": "تم إرسال الطلب إلى واتساب!",
+                "form_sent": "تم إرسال نموذج الاتصال إلى واتساب!",
+                "empty_cart": "سلة التسوق فارغة!"
+            },
+            
+            fr: {
+                // Navigation
+                "nav_home": "Accueil",
+                "nav_about": "À propos",
+                "nav_coach": "Entraîneur",
+                "nav_shop": "Boutique",
+                "nav_contact": "Contact",
+                
+                // Hero Section
+                "hero_subtitle": "REPAIRE DES CHAMPIONS",
+                "hero_title_1": "FORGEZ",
+                "hero_title_2": "DES CHAMPIONS",
+                "hero_description": "L'installation de boxe la plus avancée avec un coaching professionnel, un équipement de niveau championnat et des programmes de nutrition conçus pour les combattants. Entraînez-vous là où les champions sont faits.",
+                "hero_button": "REJOIGNEZ LE COMBAT",
+                
+                // About Section
+                "about_title": "POURQUOI RYM BOXING",
+                "about_subtitle": "INSTALLATION D'ENTRAÎNEMENT DE CLASSE MONDIALE",
+                "about_description": "RYM Boxing Gym n'est pas seulement un centre d'entraînement - c'est une usine à champions. Nous avons produit  combattants professionnels et d'innombrables champions amateurs.",
+                "feature1_title": "Équipement Professionnel",
+                "feature1_description": "Équipement Everlast, Ringside et Cleto Reyes - le même matériel utilisé dans les combats de championnat du monde.",
+                "feature2_title": "Entraîneurs Champions",
+                "feature2_description": "Notre équipe d'entraîneurs comprend d'anciens champions du monde et des combattants professionnels.",
+                "feature3_title": "Nutrition du Combattant",
+                "feature3_description": "Plans de repas et suppléments personnalisés spécialement conçus pour les besoins des boxeurs.",
+                "about_button": "RÉSERVER UNE SESSION D'ESSAI",
+                
+                // Coach Section
+                "coach_title": "RENCONTREZ VOTRE ENTRAÎNEUR",
+                "coach_name": "MIGUEL \"EL TORO\" RODRIGUEZ",
+                "coach_title_text": "ENTRAÎNEUR PRINCIPAL ET ANCIEN CHAMPION WBC",
+                "coach_record": "BILAN PRO",
+                "coach_trained": "CHAMPIONS FORMÉS",
+                "coach_experience": "ANNÉES D'EXPÉRIENCE",
+                "coach_description1": "L'entraîneur Rodriguez est un ancien champion WBC des poids légers avec 12 défenses de titre réussies. Après avoir pris sa retraite de la boxe professionnelle avec un bilan de  il a consacré sa vie à former la prochaine génération de champions.",
+                "coach_description2": "Spécialisé dans la boxe technique, la maîtrise défensive et la stratégie de combat, l'entraîneur Rodriguez a formé  combattants professionnels, dont 3 champions régionaux actuels.",
+                "coach_philosophy_title": "Philosophie d'entraînement :",
+                "coach_philosophy": "\"La boxe est à 80% mentale. Je ne forme pas seulement des combattants - je construis des guerriers qui peuvent penser à trois coups d'avance.\"",
+                "coach_button": "S'ENTRAÎNER AVEC UN CHAMPION",
+                
+                // Products Section
+                "products_title": "BOUTIQUE DU COMBATTANT",
+                "tab_protein": "PROTÉINES & NUTRITION",
+                "tab_equipment": "ÉQUIPEMENT DE BOXE",
+                "category_protein": "Protéine",
+                "category_preworkout": "Pré-Entraînement",
+                "category_recovery": "Récupération",
+                "category_gloves": "Gants",
+                "category_handprotection": "Protection des Mains",
+                "category_training": "Équipement d'Entraînement",
+                "product1_name": "ISOLAT DE PROTÉINE CHAMPION",
+                "product1_description": "Isolat de protéine de lactosérum ultra-pur spécialement formulé pour les boxeurs. 30g de protéines par portion avec des BCAA ajoutés pour la récupération musculaire.",
+                "product1_feature1": "27g de Protéines par Dose",
+                "product1_feature2": "Glutamine et BCAA ajoutés",
+                "product1_feature3": "Faible en Lactose, Digestion Facile",
+                "product1_feature4": "Options Chocolat et Vanille",
+                "product2_name": "PRÉ-ENTRAÎNEMENT PRÊT AU COMBAT",
+                "product2_description": "Maximisez votre entraînement avec notre pré-entraînement formulé pour les combattants. Fournit une énergie soutenue sans crash.",
+                "product2_feature1": "Énergie et Concentration Augmentées",
+                "product2_feature2": "Pompes Musculaires Améliorées",
+                "product2_feature3": "Pas de Tremblements ni de Crash",
+                "product2_feature4": "Fraise et Framboise Bleue",
+                "product3_name": "MÉLANGE DE RÉCUPÉRATION DU COMBATTANT",
+                "product3_description": "Formule de récupération post-entraînement avec protéines, glucides et électrolytes pour reconstituer et reconstruire après des sessions intenses.",
+                "product3_feature1": "Protéine à Absorption Rapide",
+                "product3_feature2": "Reconstitution des Électrolytes",
+                "product3_feature3": "Réduit les Douleurs Musculaires",
+                "product3_feature4": "Chocolat et Banane",
+                "product4_name": "GANTS DE COMPÉTITION PROFIGHT",
+                "product4_description": "Gants de boxe en cuir de niveau professionnel utilisés par les champions. Parfaits pour le sparring et la compétition.",
+                "product4_feature1": "Construction en Cuir Premium",
+                "product4_feature2": "Rembourrage en Mousse Multicouche",
+                "product4_feature3": "Paume en Mesh pour la Ventilation",
+                "product4_feature4": "Tailles: 10oz, 12oz, 14oz, 16oz",
+                "product5_name": "BANDES DE MAINS ÉLITE",
+                "product5_description": "Bandages de mains professionnels de 180 pouces avec boucle pour le pouce et fermeture velcro pour un soutien maximal du poignet.",
+                "product5_feature1": "Longueur de 180\" pour une Couverture Complète",
+                "product5_feature2": "Matière Coton Respirante",
+                "product5_feature3": "Fermeture Velcro Sûre",
+                "product5_feature4": "Options de Couleurs Multiples",
+                "product6_name": "SAC DE FRAppe LOURD RÉSISTANT",
+                "product6_description": "Sac lourd professionnel de 6 pieds rempli de tissu déchiqueté pour une résistance et une sensation parfaites.",
+                "product6_feature1": "Sac Lourd de 100lbs",
+                "product6_feature2": "Couture Renforcée",
+                "product6_feature3": "Cuir Résistant à l'Eau",
+                "product6_feature4": "Inclut Chaînes et Pivot",
+                "add_to_cart": "AJOUTER AU PANIER",
+                
+                // Cart
+                "cart_title": "VOTRE PANIER",
+                "cart_total": "Total:",
+                "checkout_whatsapp": "PAYER SUR WHATSAPP",
+                
+                // Contact Section
+                "contact_title": "ENTRAÎNEZ-VOUS AVEC UN CHAMPION",
+                "contact_ready": "PRÊT À COMBATTRE ?",
+                "contact_description": "Réservez votre première session avec l'entraîneur Rodriguez aujourd'hui. Que vous soyez débutant ou combattant expérimenté, nous avons un programme pour vous.",
+                "contact_location": "EMPLACEMENT",
+                "contact_phone": "TÉLÉPHONE",
+                "contact_email": "EMAIL",
+                "contact_hours": "HEURES",
+                "contact_hours_detail": "Lun-Ven: 5H-22H | Sam-Dim: 7H-20H",
+                "first_name": "Prénom",
+                "last_name": "Nom de famille",
+                "email": "Adresse Email",
+                "phone": "Numéro de Téléphone",
+                "select_goal": "Sélectionnez l'Objectif d'Entraînement",
+                "goal_beginner": "Boxe Débutant",
+                "goal_advanced": "Technique Avancée",
+                "goal_competition": "Entraînement Compétition",
+                "goal_fitness": "Fitness & Conditionnement",
+                "goal_private": "Coaching Privé",
+                "message": "Parlez-nous de votre expérience en boxe et de vos objectifs...",
+                "send_whatsapp": "ENVOYER VIA WHATSAPP",
+                
+                // Footer
+                "footer_description": "La salle de boxe de premier plan pour les combattants de tous niveaux. Entraînez-vous avec des champions, combattez comme un champion.",
+                "footer_quicklinks": "LIENS RAPIDES",
+                "footer_programs": "PROGRAMMES",
+                "program_beginner": "Boxe Débutant",
+                "program_advanced": "Entraînement Avancé",
+                "program_competition": "Préparation Compétition",
+                "program_youth": "Boxe Jeunesse",
+                "program_women": "Boxe Féminine",
+                "footer_rights": "Tous droits réservés.",
+                "footer_made": "Fabriqué avec",
+                "footer_for": "pour les Combattants",
+                
+                // Toast messages
+                "added_to_cart": "ajouté au panier !",
+                "order_sent": "Commande envoyée sur WhatsApp !",
+                "form_sent": "Formulaire de contact envoyé sur WhatsApp !",
+                "empty_cart": "Votre panier est vide !"
+            }
+        };
+        
+        // Current language
+        let currentLang = localStorage.getItem('language') || 'en';
+        
+        // Language flags
+        const languageFlags = {
+            'en': 'https://flagcdn.com/w20/gb.png',
+            'ar': 'https://flagcdn.com/w20/sa.png',
+            'fr': 'https://flagcdn.com/w20/fr.png'
+        };
+        
+        // Language names
+        const languageNames = {
+            'en': 'EN',
+            'ar': 'AR',
+            'fr': 'FR'
+        };
+        
+        // Initialize language
+        function initLanguage() {
+            // Set current language in UI
+            document.getElementById('currentFlag').style.background = `url('${languageFlags[currentLang]}') center/cover`;
+            document.getElementById('currentLanguage').textContent = languageNames[currentLang];
+            
+            // Apply language
+            applyLanguage(currentLang);
+        }
+        
+        // Apply language to all elements
+        function applyLanguage(lang) {
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update placeholder text
+            document.querySelectorAll('[data-i18n-ph]').forEach(element => {
+                const key = element.getAttribute('data-i18n-ph');
+                if (translations[lang] && translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+            
+            // Update direction for Arabic
+            if (lang === 'ar') {
+                document.body.dir = 'rtl';
+                document.body.style.fontFamily = "'Cairo', sans-serif";
+            } else {
+                document.body.dir = 'ltr';
+                document.body.style.fontFamily = "'Montserrat', sans-serif";
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('language', lang);
+        }
+        
+        // Language switcher functionality
+        document.getElementById('languageBtn').addEventListener('click', function() {
+            document.getElementById('languageDropdown').classList.toggle('active');
+        });
+        
+        // Close language dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('languageDropdown');
+            const button = document.getElementById('languageBtn');
+            
+            if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        
+        // Language selection
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                currentLang = lang;
+                
+                // Update UI
+                document.getElementById('currentFlag').style.background = `url('${languageFlags[lang]}') center/cover`;
+                document.getElementById('currentLanguage').textContent = languageNames[lang];
+                
+                // Apply language
+                applyLanguage(lang);
+                
+                // Close dropdown
+                document.getElementById('languageDropdown').classList.remove('active');
+                
+                // Show notification
+                showToast(`Language changed to ${languageNames[lang]}`);
+            });
+        });
+        
+        // Shopping Cart System
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+        
+        // Update cart count
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+        
+        // Update cart total
+        function updateCartTotal() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
+        }
+        
+        // Render cart items
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+                        <p>${translations[currentLang]['empty_cart']}</p>
+                        <p data-i18n="empty_cart_add">Add some products to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            cartItemsContainer.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</div>
+                    </div>
+                    <button class="cart-item-remove" onclick="removeFromCart(${index})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        // Add to cart function
+        function addToCart(product) {
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            saveCart();
+            updateCartCount();
+            showToast(`${product.name} ${translations[currentLang]['added_to_cart']}`);
+        }
+        
+        // Remove from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartCount();
+            updateCartTotal();
+            renderCartItems();
+        }
+        
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Generate WhatsApp message for cart
+        function generateCartWhatsAppMessage() {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let message = `*${translations[currentLang]['products_title']}*\n\n`;
+            message += `*${translations[currentLang]['cart_total']}*\n`;
+            
+            cart.forEach(item => {
+                message += `• ${item.name} - $${item.price.toFixed(2)} x ${item.quantity}\n`;
+            });
+            
+            message += `\n*Total: $${total.toFixed(2)}*\n\n`;
+            message += `${new Date().toLocaleString()}`;
+            
+            return encodeURIComponent(message);
+        }
+        
+        // Generate WhatsApp message for contact form
+        function generateContactWhatsAppMessage(formData) {
+            let message = `*${translations[currentLang]['contact_title']}*\n\n`;
+            message += `*${translations[currentLang]['first_name']}:* ${formData.firstName}\n`;
+            message += `*${translations[currentLang]['last_name']}:* ${formData.lastName}\n`;
+            message += `*${translations[currentLang]['email']}:* ${formData.email}\n`;
+            message += `*${translations[currentLang]['phone']}:* ${formData.phone}\n`;
+            message += `*${translations[currentLang]['select_goal']}:* ${formData.trainingGoal}\n`;
+            message += `*${translations[currentLang]['message']}:* ${formData.message}\n\n`;
+            message += `${new Date().toLocaleString()}`;
+            
+            return encodeURIComponent(message);
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Product tabs functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Add to cart button handlers
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productData = JSON.parse(this.getAttribute('data-product'));
+                addToCart(productData);
+                
+                // Visual feedback
+                const originalText = this.textContent;
+                this.textContent = '✓';
+                this.style.backgroundColor = '#28a745';
+                
+                setTimeout(() => {
+                    this.textContent = translations[currentLang]['add_to_cart'];
+                    this.style.backgroundColor = '';
+                }, 1500);
+            });
+        });
+        
+        // Cart sidebar functionality
+        const cartSidebar = document.getElementById('cartSidebar');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const openCartBtn = document.getElementById('openCart');
+        const closeCartBtn = document.getElementById('closeCart');
+        
+        function openCart() {
+            renderCartItems();
+            updateCartTotal();
+            cartSidebar.classList.add('open');
+            cartOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeCart() {
+            cartSidebar.classList.remove('open');
+            cartOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        openCartBtn.addEventListener('click', openCart);
+        closeCartBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+        
+        // Checkout button
+        document.getElementById('checkoutBtn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                showToast(translations[currentLang]['empty_cart']);
+                return;
+            }
+            
+            const message = generateCartWhatsAppMessage();
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+            
+            // Clear cart after checkout
+            cart = [];
+            saveCart();
+            updateCartCount();
+            renderCartItems();
+            updateCartTotal();
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+            
+            // Close cart
+            closeCart();
+            
+            showToast(translations[currentLang]['order_sent']);
+        });
+        
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                trainingGoal: document.getElementById('trainingGoal').value,
+                message: document.getElementById('message').value
+            };
+            
+            const message = generateContactWhatsAppMessage(formData);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+            
+            // Show success message
+            showToast(translations[currentLang]['form_sent']);
+            
+            // Reset form
+            this.reset();
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close cart if open
+                    closeCart();
+                }
+            });
+        });
+        
+        // Video controls
+        const heroVideo = document.getElementById('hero-video');
+        heroVideo.playbackRate = 0.8; // Slow down video slightly
+        
+        // Initialize on page load
+        initLanguage();
+        updateCartCount();
+    </script>
+</body>
+</html>
